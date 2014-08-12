@@ -198,8 +198,6 @@
         horizontalScroll:false,
         _currentHeaderID:"defaultHeader",
         useInternalRouting:true,
-        IScroll : {},
-
         autoBoot: function() {
             this.hasLaunched = true;
             var that=this;
@@ -702,30 +700,7 @@
             time = time || this.transitionTime;
             var open = this.isSideMenuOn();
             var toX=aside?"-"+asideMenu.width():menu.width();
-            if(this.IScroll[menu.get(0).id]){
-                this.IScroll[menu.get(0).id].destroy();
-            }
-            if(this.IScroll[asideMenu.get(0).id]){
-                this.IScroll[asideMenu.get(0).id].destroy();
-            }
-            if(!aside){
-                this.IScroll[menu.get(0).id] = new IScroll(menu.get(0), {
-                    scrollbars: false,
-                    mouseWheel: true,
-                    interactiveScrollbars: true,
-                    shrinkScrollbars: 'scale',
-                    fadeScrollbars: true
-                });
-            }
-            if(aside){
-                this.IScroll[asideMenu.get(0).id] = new IScroll(asideMenu.get(0), {
-                    scrollbars: false,
-                    mouseWheel: true,
-                    interactiveScrollbars: true,
-                    shrinkScrollbars: 'scale',
-                    fadeScrollbars: true
-                });
-            }
+
             // add panel mask to block when side menu is open for phone devices
             if(panelMask.length === 0 && window.innerWidth < $.ui.handheldMinWidth){
                 els.append("<div class='afui_panel_mask'></div>");
@@ -744,10 +719,13 @@
             if (force === 2 || (!open && ((force !== undefined && force !== false) || force === undefined))) {
 
                 this.togglingSideMenu = true;
-                if(!aside)
+                if(!aside){
                     menu.show();
-                else
+                    this.scrollingDivs[menu.get(0).id].refresh();
+                }else{
                     asideMenu.show();
+                    this.scrollingDivs[asideMenu.get(0).id].refresh();
+                }
                 that.css3animate(els, {
                     x: toX,
                     time: time,
@@ -783,7 +761,6 @@
             }
         },
         toggleSideMenu:function(){
-
             this.toggleLeftSideMenu.apply(this,arguments);
         },
         /**
@@ -1760,14 +1737,14 @@
                 $("#header #menubadge").css("float", "left");
             } else if (this.showBackButton && this.showBackbutton) this.setBackButtonVisibility(true);
             this.activeDiv = what;
-            if(this.IScroll[what.id]){
-                this.IScroll[what.id].destroy();
+            if(this.scrollingDivs[what.id]){
+                this.scrollingDivs[what.id].destroy();
             }
-            if(!this.IScroll[what.id] && $(what).attr('data-iscroll') != 'false'){
+            if(!this.scrollingDivs[what.id] && $(what).attr('data-iscroll') != 'false'){
                 $(what).wrapInner(document.createElement("div"));
             }
             if($(what).attr('data-iscroll') != 'false'){
-                this.IScroll[what.id] = new IScroll(what, {
+                this.scrollingDivs[what.id] = new IScroll(what, {
                     scrollbars: true,
                     mouseWheel: true,
                     interactiveScrollbars: true,
@@ -1776,7 +1753,7 @@
                 });
             }
             if (this.scrollingDivs[this.activeDiv.id]) {
-                this.scrollingDivs[this.activeDiv.id].enable(this.resetScrollers);
+                //this.scrollingDivs[this.activeDiv.id].enable(this.resetScrollers);
             }
         },
         /**
@@ -1984,6 +1961,14 @@
                 this.viewportContainer.append(this.menu);
                 this.menu.style.overflow = "hidden";
 
+                this.scrollingDivs[this.menu.id] = new IScroll(this.menu, {
+                    scrollbars: false,
+                    mouseWheel: true,
+                    interactiveScrollbars: true,
+                    shrinkScrollbars: 'scale',
+                    fadeScrollbars: true
+                });
+
                 if ($.feat.nativeTouchScroll) $.query("#menu_scroller").css("height", "100%");
 
                 this.asideMenu = $.create("div", {
@@ -1993,6 +1978,13 @@
                 this.viewportContainer.append(this.asideMenu);
                 this.asideMenu.style.overflow = "hidden";
 
+                this.scrollingDivs[this.asideMenu.id] = new IScroll(this.asideMenu, {
+                    scrollbars: false,
+                    mouseWheel: true,
+                    interactiveScrollbars: true,
+                    shrinkScrollbars: 'scale',
+                    fadeScrollbars: true
+                });
                 if ($.feat.nativeTouchScroll) $.query("#aside_menu_scroller").css("height", "100%");
             }
 

@@ -163,16 +163,15 @@
 
             $.ui.ready(function(){
                 var what = $.ui.activeDiv;
-                if($.ui.IScroll[what.id]){
-                    $.ui.IScroll[what.id].destroy();
-                    $.ui.IScroll[what.id] = new IScroll(what, {
+                if($.ui.scrollingDivs[what.id]){
+                    $.ui.scrollingDivs[what.id].destroy();
+                    $.ui.scrollingDivs[what.id] = new IScroll(what, {
                         scrollbars: true,
                         mouseWheel: true,
                         interactiveScrollbars: true,
                         shrinkScrollbars: 'scale',
                         fadeScrollbars: true
                     });
-                    //console.log($.ui.IScroll[what.id]);
                 }
             });                
         </script>
@@ -190,7 +189,7 @@
 
             </div>
             <div id="header">
-                <a id='menubadge' onclick='af.ui.toggleSideMenu()' class='menuButton'></a>                 
+                <a id='menubadge' onclick='$.ui.toggleSideMenu()' class='menuButton'></a>                 
             </div>
             <div id="content">
                 <div title='欢迎' id="main" class="panel" selected="true" data-load="loadedPanel" data-unload="unloadedPanel" data-tab="navbar_home">
@@ -2476,6 +2475,25 @@
                 <br>
                 <br>我是右侧面板111。。
                 <br>我是右侧面板111。。<br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>我是右侧面板111。。
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>我是右侧面板111。。
+                <br>
+                <br>
+                <br>我是右侧面板111。。
+                <br>我是右侧面板111。。<br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>我是右侧面板111。。
                 <br>
                 <br>
                 <br>
