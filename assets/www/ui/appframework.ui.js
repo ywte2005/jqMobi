@@ -1149,7 +1149,7 @@
                 $(that.modalWindow).css("display","");
                 $(that.modalWindow).addClass("display","flexContainer");
                 if (useScroller) {
-                    this.scrollingDivs.modal_container.enable(that.resetScrollers);
+                    this.scrollingDivs.modal_container.enable();
                 }
                 else {
                     this.scrollingDivs.modal_container.disable();
@@ -1737,23 +1737,24 @@
                 $("#header #menubadge").css("float", "left");
             } else if (this.showBackButton && this.showBackbutton) this.setBackButtonVisibility(true);
             this.activeDiv = what;
-            if(this.scrollingDivs[what.id]){
-                this.scrollingDivs[what.id].destroy();
-            }
-            if(!this.scrollingDivs[what.id] && $(what).attr('data-iscroll') != 'false'){
-                $(what).wrapInner(document.createElement("div"));
-            }
+
             if($(what).attr('data-iscroll') != 'false'){
-                this.scrollingDivs[what.id] = new IScroll(what, {
-                    scrollbars: true,
-                    mouseWheel: true,
-                    interactiveScrollbars: true,
-                    shrinkScrollbars: 'scale',
-                    fadeScrollbars: true
-                });
+                if(!this.scrollingDivs[what.id]){
+                    $(what).wrapInner(document.createElement("div"));
+                    this.scrollingDivs[what.id] = new IScroll(what, {
+                        scrollbars: true,
+                        mouseWheel: true,
+                        interactiveScrollbars: true,
+                        shrinkScrollbars: 'scale',
+                        fadeScrollbars: true
+                    });
+                }
+            }
+            if(this.scrollingDivs[what.id]){
+                this.scrollingDivs[what.id].refresh();
             }
             if (this.scrollingDivs[this.activeDiv.id]) {
-                //this.scrollingDivs[this.activeDiv.id].enable(this.resetScrollers);
+                this.scrollingDivs[this.activeDiv.id].enable();
             }
         },
         /**

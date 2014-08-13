@@ -162,17 +162,7 @@
             }  
 
             $.ui.ready(function(){
-                var what = $.ui.activeDiv;
-                if($.ui.scrollingDivs[what.id]){
-                    $.ui.scrollingDivs[what.id].destroy();
-                    $.ui.scrollingDivs[what.id] = new IScroll(what, {
-                        scrollbars: true,
-                        mouseWheel: true,
-                        interactiveScrollbars: true,
-                        shrinkScrollbars: 'scale',
-                        fadeScrollbars: true
-                    });
-                }
+                
             });                
         </script>
 
